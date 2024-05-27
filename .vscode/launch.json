@@ -10,7 +10,7 @@
           "servertype": "openocd",
           "interface": "swd",
           "device": "STM32H725IETx",
-          "svdFile": "${workspaceRoot}/svd/STM32H725.svd",
+          "svdFile": "${workspaceRoot}/STM32H725.svd",
           "configFiles": [
               "${workspaceRoot}/nts-1_mkii.cfg"
           ],
