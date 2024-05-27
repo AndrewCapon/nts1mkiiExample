@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "Debug (OpenOCD)",
+          "cwd": "${workspaceRoot}",
+          "executable": "${workspaceRoot}/build/test_osc.elf",
+          "request": "attach",
+          "type": "cortex-debug",
+          "servertype": "openocd",
+          "interface": "swd",
+          "device": "STM32H725IETx",
+          "svdFile": "${workspaceRoot}/svd/TM4C123GH6PM.svd",
+          "configFiles": [
+              "${workspaceRoot}/nts-1_mkii.cfg"
+          ],
+          "postAttachCommands": [
+            "dir ${workspaceRoot}/test-osc",
+            "add-symbol-file ${workspaceRoot}/build/test_osc.elf 0x14aa0",
+            "c"
+          ]
+      }
+  ]
+}
+  
