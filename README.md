@@ -1,4 +1,4 @@
-Simple VSCode setup for building/debugging for Korg NTS1 mkii.
+Simple VSCode setup for building/debugging for Korg NTS1 mkii, you need the Cortex-Debug extension installed
 
 The makefile is setup for running with this folder at the same level as the logue-sdk folder, if yours is different then set LOGUE_SDK in the makefile to the correct location.
 
