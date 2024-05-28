@@ -74,6 +74,7 @@ BIN   := $(CP) -O binary
 
 RULESPATH := $(LDDIR)
 LDSCRIPT := $(LDDIR)/unit.ld
+LDSCRIPTD := unit_14000.ld
 DLIBS := -lc
 
 DADEFS := -D$(MCU_MODEL) -DCORTEX_USE_FPU=TRUE -DARM_MATH_CM7
@@ -151,8 +152,10 @@ ASXFLAGS  = $(MCFLAGS) -g $(TOPT) -Wa,-alms=$(LSTDIR)/$(notdir $(<:.S=.lst)) $(A
 CFLAGS    = $(MCFLAGS) $(TOPT) $(OPT) $(COPT) $(CWARN) -Wa,-alms=$(LSTDIR)/$(notdir $(<:.c=.lst)) $(DEFS)
 CXXFLAGS  = $(MCFLAGS) $(TOPT) $(OPT) $(CXXOPT) $(CXXWARN) -Wa,-alms=$(LSTDIR)/$(notdir $(<:.cc=.lst)) $(DEFS)
 LDFLAGS   := $(MCFLAGS) $(TOPT) $(OPT) -nostartfiles $(LIBDIR) -Wl,-z,max-page-size=128,-Map=$(BUILDDIR)/$(PROJECT).map,--cref,--no-warn-mismatch,--library-path=$(RULESPATH),--script=$(LDSCRIPT) $(LDOPT)
+LDFLAGSD  := $(MCFLAGS) $(TOPT) $(OPT) -nostartfiles $(LIBDIR) -Wl,-z,max-page-size=128,-Map=$(BUILDDIR)/debug.map,--cref,--no-warn-mismatch,--library-path=$(RULESPATH),--script=$(LDSCRIPTD) $(LDOPT)
 
 OUTFILES := $(BUILDDIR)/$(PROJECT).elf \
+			$(BUILDDIR)/debug.elf \
 	    $(BUILDDIR)/$(PROJECT).hex \
 	    $(BUILDDIR)/$(PROJECT).bin \
 	    $(BUILDDIR)/$(PROJECT).dmp \
@@ -207,6 +210,11 @@ $(BUILDDIR)/%.elf: $(OBJS) $(LDSCRIPT)
 	@echo Linking $@
 	@echo $(LD) $(OBJS) $(LDFLAGS) $(LIBS) -o $@
 	@$(LD) $(OBJS) $(LDFLAGS) $(LIBS) -o $@
+
+$(BUILDDIR)/debug.elf: $(OBJS) $(LDSCRIPT)
+	@echo Linking Debug Elf
+	@echo $(LD) $(OBJS) $(LDFLAGSD) $(LIBS) -o $@
+	@$(LD) $(OBJS) $(LDFLAGSD) $(LIBS) -o $@
 
 %.hex: %.elf
 	@echo Creating $@

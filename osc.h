@@ -50,7 +50,15 @@
 
 #include "utils/int_math.h"   // for clipminmaxi32()
 
+extern "C" 
+{
+  #include "stm32h725xx.h"
+  #include "core_cm7.h"
+}
+
 #define _USART USART2
+
+int i = 0;
 
 class Osc {
  public:
@@ -167,6 +175,8 @@ class Osc {
       // Note: this is a dummy unit only to demonstrate APIs, only outputting silence.
       *out_p = 0.f; // sample
     }
+
+    i++;
   }
 
   inline void setParameter(uint8_t index, int32_t value) {
@@ -252,6 +262,7 @@ class Osc {
 
   inline void NoteOn(uint8_t note, uint8_t velo) {
     // Test note on
+//    ITM_SendChar('*');
     (uint8_t)note;
     (uint8_t)velo;
   }

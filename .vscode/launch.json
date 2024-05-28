@@ -4,21 +4,21 @@
       {
           "name": "Debug (OpenOCD)",
           "cwd": "${workspaceRoot}",
-          "executable": "${workspaceRoot}/build/test_osc.elf",
+          "executable": "${workspaceRoot}/build/debug.elf",
           "request": "attach",
           "type": "cortex-debug",
           "servertype": "openocd",
           "interface": "swd",
           "device": "STM32H725IETx",
           "svdFile": "${workspaceRoot}/STM32H725.svd",
+          "searchDir": ["/Volumes/X82/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.debug.openocd_2.2.0.202401261111/resources/openocd/st_scripts"],
           "configFiles": [
               "${workspaceRoot}/nts-1_mkii.cfg"
           ],
           "postAttachCommands": [
-            "dir ${workspaceRoot}/test-osc",
-            "add-symbol-file ${workspaceRoot}/build/test_osc.elf 0x14aa0",
+            "dir ${workspaceRoot}",
             "c"
-          ]
+          ],
       }
   ]
 }
