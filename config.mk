@@ -10,10 +10,7 @@ PROJECT_TYPE := osc
 #
 
 # C sources 
-UCSRC = header.c
-ifeq ($(USE_USART), 1)
-	UCSRC +=  stm32h7xx_ll_gpio.c stm32h7xx_ll_rcc.c stm32h7xx_ll_usart.c system_stm32h7xx.c
-endif
+UCSRC = header.c NtsDebugOut.c
 
 # C++ sources 
 UCXXSRC = unit.cc

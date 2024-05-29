@@ -2,6 +2,7 @@
 # Common project definitions
 #
 USE_USART := 1
+
 DEBUG := 1
 CHECK_MISSING := 0
 
@@ -102,7 +103,7 @@ FPU_OPTS := -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -fche
 ifeq ($(DEBUG), 1)
 	OPT := -g -O0 -mlittle-endian 
 else
-	OPT := -Os -mlittle-endian 
+	OPT := -g -Os -mlittle-endian 
 endif
 
 OPT += $(FPU_OPTS)
@@ -110,7 +111,7 @@ OPT += $(FPU_OPTS)
 ## TODO: there seems to be a bug or some yet unknown behavior that breaks PLT code for external calls when LTO is enabled alongside -nostartfiles
 #OPT += -flto
 
-TOPT := -mthumb -mno-thumb-interwork -DTHUMB_NO_INTERWORKING -DTHUMB_PRESENT -DUSE_FULL_LL_DRIVER -DUSE_UART=$(USE_USART)
+TOPT := -mthumb -mno-thumb-interwork -DTHUMB_NO_INTERWORKING -DTHUMB_PRESENT -DUSE_FULL_LL_DRIVER -DUSE_USART=$(USE_USART)
 
 ##############################################################################
 # Set compilation targets and directories
@@ -247,7 +248,7 @@ $(BUILDDIR)/debug.elf: $(OBJS) $(LDSCRIPT)
 
 %.list: %.elf
 	@echo Creating $@
-	@$(OD) -S $< > $@
+	@$(OD) -dS $< > $@
 
 clean:
 	@echo Cleaning

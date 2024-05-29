@@ -19,20 +19,7 @@ void DebugOutParams(const char *pStr, ...)
 
 At the top of the Makefile set USE_USART, DEBUG to turn DEBUG and USART on.
 
-DEBUG=0, USE_USART=0
-   text    data     bss     dec     hex filename
-   3139     216      60    3415     d57 /Volumes/X82/Development/Korg/nts1mkiiExample//build/test_osc.elf
+in -Os optimser adds 1180 bytes to size
+in -O0 optimser adds 1448 bytes to size
 
-DEBUG=0, USE_USART=1
-   text    data     bss     dec     hex filename
-  11034     264      60   11358    2c5e /Volumes/X82/Development/Korg/nts1mkiiExample//build/test_osc.elf
-
-DEBUG=1, USE_USART=0
-   text    data     bss     dec     hex filename
-   7076     292      60    7428    1d04 /Volumes/X82/Development/Korg/nts1mkiiExample//build/test_osc.elf
-
-DEBUG=1, USE_USART=1
-   text    data     bss     dec     hex filename
-  21287     340      60   21687    54b7 /Volumes/X82/Development/Korg/nts1mkiiExample//build/test_osc.elf
-
-
+You may also see the size go up more depending on the maths you are using!
