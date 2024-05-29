@@ -45,18 +45,12 @@
 #include <cstddef>
 #include <cstdint>
 #include <climits>
+#include <cstdio>
 
 #include "unit_osc.h"   // Note: Include base definitions for osc units
-
 #include "utils/int_math.h"   // for clipminmaxi32()
 
-extern "C" 
-{
-  #include "stm32h725xx.h"
-  #include "core_cm7.h"
-}
-
-#define _USART USART2
+#include "unit.h"
 
 int i = 0;
 
@@ -102,12 +96,6 @@ class Osc {
   ~Osc(void) {} // Note: will never actually be called for statically allocated instances
 
   inline int8_t Init(const unit_runtime_desc_t * desc) {
-
-    // while( !( _USART->SR & USART_SR_TXE ) ) 
-    //   {}; // wait until we are able to transmit
-
-    // _USART->DR = '*'; // transmit the character
-
     if (!desc)
       return k_unit_err_undef;
     
@@ -262,7 +250,15 @@ class Osc {
 
   inline void NoteOn(uint8_t note, uint8_t velo) {
     // Test note on
-//    ITM_SendChar('*');
+    // ITM_SendChar('*');
+    // void *p = runtime_desc_.hooks.sdram_alloc(1024);
+    //printf("Hell\r\n");
+    static uint32_t u = 0;
+    float f = -123.456f;
+    int d = -10;
+
+    DebugOutParams("NoteOn - %u, %f, %d, '%s'\r\n", u++, f, d, "Wheee");
+
     (uint8_t)note;
     (uint8_t)velo;
   }

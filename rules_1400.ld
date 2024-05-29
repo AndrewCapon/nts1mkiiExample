@@ -83,9 +83,9 @@ SECTIONS
   {
     *(.text)
     *(.text.*)
-    /* *(.glue_7) */
-    /* *(.glue_7t) */
-    /* *(.gcc*) */
+    *(.glue_7)
+    *(.glue_7t)
+    *(.gcc*)
     
     KEEP(*(.init))
     KEEP(*(.fini))

@@ -1,9 +1,13 @@
 ##############################################################################
 # Common project definitions
 #
+USE_USART := 1
+DEBUG := 1
+CHECK_MISSING := 0
+
 LOGUE_SDK := $(realpath ../logue-sdk)
 PLATFORM := $(LOGUE_SDK)/platform/nts-1_mkii
-
+ 
 $(info LOGUE_SDK is $(LOGUE_SDK))
 $(info PLATFORM is $(PLATFORM))
 
@@ -83,20 +87,30 @@ DDEFS := -D$(MCU_MODEL) -DCORTEX_USE_FPU=TRUE -DARM_MATH_CM7 -D__FPU_PRESENT
 COPT := -fPIC -std=c11 -fno-exceptions
 CXXOPT := -fPIC -fno-use-cxa-atexit -std=c++11 -fno-rtti -fno-exceptions -fno-non-call-exceptions
 
-LDOPT := -shared --entry=0 -specs=nano.specs -specs=nosys.specs
+ifeq ($(CHECK_MISSING), 1)
+	LDOPT :=  --entry=0 -specs=nano.specs -specs=nosys.specs 
+else
+	LDOPT := -shared --entry=0 -specs=nano.specs -specs=nosys.specs 
+endif
 
 CWARN := -W -Wall -Wextra
 CXXWARN :=
 
 FPU_OPTS := -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -fcheck-new
 
-OPT := -g -O0 -mlittle-endian 
+
+ifeq ($(DEBUG), 1)
+	OPT := -g -O0 -mlittle-endian 
+else
+	OPT := -Os -mlittle-endian 
+endif
+
 OPT += $(FPU_OPTS)
 
 ## TODO: there seems to be a bug or some yet unknown behavior that breaks PLT code for external calls when LTO is enabled alongside -nostartfiles
 #OPT += -flto
 
-TOPT := -mthumb -mno-thumb-interwork -DTHUMB_NO_INTERWORKING -DTHUMB_PRESENT
+TOPT := -mthumb -mno-thumb-interwork -DTHUMB_NO_INTERWORKING -DTHUMB_PRESENT -DUSE_FULL_LL_DRIVER -DUSE_UART=$(USE_USART)
 
 ##############################################################################
 # Set compilation targets and directories

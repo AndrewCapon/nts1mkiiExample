@@ -37,6 +37,8 @@
 #ifndef STM32H7xx_H
 #define STM32H7xx_H
 
+#define STM32H725xx
+
 #ifdef __cplusplus
  extern "C" {
 #endif /* __cplusplus */
