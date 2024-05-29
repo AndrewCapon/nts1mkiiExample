@@ -54,8 +54,6 @@
 
 int i = 0;
 
-extern "C" float TestFloat();
-
 
 class Osc {
  public:
@@ -253,16 +251,11 @@ class Osc {
 
 
   inline void NoteOn(uint8_t note, uint8_t velo) {
-    // Test note on
-    // ITM_SendChar('*');
-    // void *p = runtime_desc_.hooks.sdram_alloc(1024);
-    //printf("Hell\r\n");
-    // static uint32_t u = 0;
-    // float f = -123.456f/note*(velo +1);
-    // int d = -10;
+    static uint32_t u = 0;
+    float f = -123.456f/note*(velo +1);
+    int d = -10;
 
-    // DebugOutParams("NoteOn1 - %u, %f, %d, '%s'\r\n", u++, f, d, "Wheee");
-    TestFloat();
+    DebugOutParams("NoteOn1 - %u, %f, %d, '%s'\r\n", u++, f, d, "Wheee");
 
     (uint8_t)note;
     (uint8_t)velo;

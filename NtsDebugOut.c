@@ -773,6 +773,7 @@ void DebugOut(const char *pStr)
     while(!LL_USART_IsActiveFlag_TXE(USART2))
       ;
     LL_USART_TransmitData8(USART2, *p);
+    ITM_SendChar(*p);
     p++;
   }
 }
