@@ -1,8 +1,10 @@
 ##############################################################################
 # Common project definitions
 #
+# USART tested working up to 921600 with my wiring!
+# warning OSX only supports max of 230400 
 USE_USART := 1
-
+USART_BAUDRATE=230400  
 DEBUG := 1
 CHECK_MISSING := 0
 
@@ -111,7 +113,7 @@ OPT += $(FPU_OPTS)
 ## TODO: there seems to be a bug or some yet unknown behavior that breaks PLT code for external calls when LTO is enabled alongside -nostartfiles
 #OPT += -flto
 
-TOPT := -mthumb -mno-thumb-interwork -DTHUMB_NO_INTERWORKING -DTHUMB_PRESENT -DUSE_FULL_LL_DRIVER -DUSE_USART=$(USE_USART)
+TOPT := -mthumb -mno-thumb-interwork -DTHUMB_NO_INTERWORKING -DTHUMB_PRESENT -DUSE_FULL_LL_DRIVER -DUSE_USART=$(USE_USART) -DUSART_BAUDRATE=$(USART_BAUDRATE)
 
 ##############################################################################
 # Set compilation targets and directories

@@ -744,7 +744,7 @@ void MX_USART2_UART_Init(void)
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   USART_InitStruct.PrescalerValue = LL_USART_PRESCALER_DIV1;
-  USART_InitStruct.BaudRate = 115200;
+  USART_InitStruct.BaudRate = USART_BAUDRATE;
   USART_InitStruct.DataWidth = LL_USART_DATAWIDTH_8B;
   USART_InitStruct.StopBits = LL_USART_STOPBITS_1;
   USART_InitStruct.Parity = LL_USART_PARITY_NONE;
@@ -773,15 +773,12 @@ void DebugOut(const char *pStr)
     while(!LL_USART_IsActiveFlag_TXE(USART2))
       ;
     LL_USART_TransmitData8(USART2, *p);
-    ITM_SendChar(*p);
     p++;
   }
 }
 
 void DebugOutParams(const char *pStr, ...)
 {
-  
-
   va_list ap;
   va_start(ap, pStr);
 
