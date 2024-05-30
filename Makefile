@@ -78,7 +78,7 @@ STRIP := $(GCC_BIN_PATH)/$(GCC_TARGET)strip
 
 HEX   := $(CP) -O ihex
 BIN   := $(CP) -O binary
-
+ 
 RULESPATH := $(LDDIR)
 LDSCRIPT := $(LDDIR)/unit.ld
 LDSCRIPTD := unit_14000.ld
@@ -99,7 +99,7 @@ endif
 CWARN := -W -Wall -Wextra
 CXXWARN :=
 
-FPU_OPTS := -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -fcheck-new
+FPU_OPTS := -mfloat-abi=hard -mfpu=fpv5-d16 -fsingle-precision-constant -fcheck-new
 
 
 ifeq ($(DEBUG), 1)
@@ -203,21 +203,25 @@ $(OBJDIR):
 
 $(LSTDIR):
 	@mkdir -p $(LSTDIR)
-
+ 
 $(ASMOBJS) : $(OBJDIR)/%.o : %.s Makefile
 	@echo Assembling $(<F)
+	@echo @$(AS) -c $(ASFLAGS) -I. $(INCDIR) $< -o $@
 	@$(AS) -c $(ASFLAGS) -I. $(INCDIR) $< -o $@
 
 $(ASMXOBJS) : $(OBJDIR)/%.o : %.S Makefile
 	@echo Assembling $(<F)
+	@echo @$(CC) -c $(ASXFLAGS) -I. $(INCDIR) $< -o $@
 	@$(CC) -c $(ASXFLAGS) -I. $(INCDIR) $< -o $@
 
 $(COBJS) : $(OBJDIR)/%.o : %.c Makefile 
 	@echo Compiling $(<F)
+	@echo @$(CC) -c $(CFLAGS) -I. $(INCDIR) $< -o $@
 	@$(CC) -c $(CFLAGS) -I. $(INCDIR) $< -o $@
 
 $(CXXOBJS) : $(OBJDIR)/%.o : %.cc Makefile
 	@echo Compiling $(<F)
+	@echo@$(CXXC) -c $(CXXFLAGS) -I. $(INCDIR) $< -o $@
 	@$(CXXC) -c $(CXXFLAGS) -I. $(INCDIR) $< -o $@
 
 $(COBJS) : *.h
