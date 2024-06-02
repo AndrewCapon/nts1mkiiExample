@@ -107,7 +107,7 @@ ifeq ($(DEBUG), 1)
 else
 	OPT := -g -Os -mlittle-endian 
 endif
-
+ 
 OPT += $(FPU_OPTS)
 
 ## TODO: there seems to be a bug or some yet unknown behavior that breaks PLT code for external calls when LTO is enabled alongside -nostartfiles
@@ -186,7 +186,7 @@ all: PRE_ALL $(OBJS) $(OUTFILES) POST_ALL
 	@echo Done
 	@echo
 
-PRE_ALL:
+PRE_ALL: 
 
 POST_ALL:
 
@@ -221,7 +221,7 @@ $(COBJS) : $(OBJDIR)/%.o : %.c Makefile
 
 $(CXXOBJS) : $(OBJDIR)/%.o : %.cc Makefile
 	@echo Compiling $(<F)
-	@echo@$(CXXC) -c $(CXXFLAGS) -I. $(INCDIR) $< -o $@
+	@echo @$(CXXC) -c $(CXXFLAGS) -I. $(INCDIR) $< -o $@
 	@$(CXXC) -c $(CXXFLAGS) -I. $(INCDIR) $< -o $@
 
 $(COBJS) : *.h
@@ -236,24 +236,29 @@ $(BUILDDIR)/debug.elf: $(OBJS) $(LDSCRIPT)
 	@echo Linking Debug Elf
 	@echo $(LD) $(OBJS) $(LDFLAGSD) $(LIBS) -o $@
 	@$(LD) $(OBJS) $(LDFLAGSD) $(LIBS) -o $@
-
+ 
 %.hex: %.elf
 	@echo Creating $@
+	@echo @$(HEX) $< $@
 	@$(HEX) $< $@
 
 %.bin: %.elf
 	@echo Creating $@
+	@echo @$(BIN) $< $@
 	@$(BIN) $< $@
 
 %.dmp: %.elf
 	@echo Creating $@
+	@echo @$(OD) $(ODFLAGS) $< > $@
 	@$(OD) $(ODFLAGS) $< > $@
 	@echo
+	@echo @$(SZ) $<
 	@$(SZ) $<
 	@echo
 
 %.list: %.elf
 	@echo Creating $@
+	@echo @$(OD) -dS $< > $@
 	@$(OD) -dS $< > $@
 
 clean:
@@ -264,12 +269,16 @@ clean:
 
 $(BUILDDIR)/$(PRODUCT): | $(OBJS) $(OUTFILES)
 	@echo Making $(BUILDDIR)/$(PRODUCT)
+	@echo @cp -a $(BUILDDIR)/$(PROJECT).elf $(BUILDDIR)/$(PRODUCT)
 	@cp -a $(BUILDDIR)/$(PROJECT).elf $(BUILDDIR)/$(PRODUCT)
+	@echo @$(STRIP) $(BUILDDIR)/$(PRODUCT)
 	@$(STRIP) $(BUILDDIR)/$(PRODUCT)
 
 install: $(BUILDDIR)/$(PRODUCT)
 	@echo Deploying to $(INSTALLDIR)/$(PRODUCT)
+	@echo mv $(BUILDDIR)/$(PRODUCT) $(INSTALLDIR)/$(PRODUCT)
 	@mv $(BUILDDIR)/$(PRODUCT) $(INSTALLDIR)/$(PRODUCT)
 	@echo Done
 	@echo
 
+ 
